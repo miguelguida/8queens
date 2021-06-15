@@ -1,16 +1,6 @@
 '''
-    Modelo de computação evolutiva para resolver o problema das 8 rainhas
+    Author: Miguel Augusto Silva Guida
 
-    gerar populacao inicial
-    loop ate achar solucao otima:
-        rankear com base no fit
-        escolher pares para crossover
-        gerar filhos
-        mutacoes
-    
-'''
-
-'''
     Evolutionary Algorithm model to solve the 8 Queens problem
 
     Steps:
@@ -27,22 +17,25 @@
 
 import numpy as np
 
-queens = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-tabletest = np.array([[1,0,0,0,0,0,0,0],
-                      [0,0,0,0,0,0,0,8],
-                      [0,2,0,0,0,0,0,0],
-                      [0,0,0,0,0,0,7,0],
-                      [0,0,3,0,0,0,0,0],
-                      [0,0,0,0,0,6,0,0],
-                      [0,0,0,4,0,0,0,0],
-                      [0,0,0,0,5,0,0,0]]) #[1,3,5,7,8,6,4,2]
-# positionstest = np.array([1,3,5,7,8,6,4,2])                      
-# positionstest = np.array([4,2,5,8,5,1,3,6])
-positionstest = np.array([7,3,8,2,5,1,6,4])
-table = np.zeros((8,8))
+# queens = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+# tabletest = np.array([[1,0,0,0,0,0,0,0],
+#                       [0,0,0,0,0,0,0,8],
+#                       [0,2,0,0,0,0,0,0],
+#                       [0,0,0,0,0,0,7,0],
+#                       [0,0,3,0,0,0,0,0],
+#                       [0,0,0,0,0,6,0,0],
+#                       [0,0,0,4,0,0,0,0],
+#                       [0,0,0,0,5,0,0,0]]) #[1,3,5,7,8,6,4,2]
+# # positionstest = np.array([1,3,5,7,8,6,4,2])                      
+# # positionstest = np.array([4,2,5,8,5,1,3,6])
+# positionstest = np.array([7,3,8,2,5,1,6,4])
+# table = np.zeros((8,8))
 
-
-
+'''
+    - Function that compute the fitness of the queens' position.
+    - If it returns 28, there are no collision between the queens, and for each collision, 
+      this number is decreased by 1.
+'''
 def computeQueensCost(positions):
     positions = positions -1
     cost = 0
@@ -107,10 +100,10 @@ def findQueensSolution():
             mother = getParent(population)
             while(np.array_equal(father, mother)):
                 father = getParent(population)
-            if mode % 2 < 1:
+            if mode % 2 < 1: # one point crossover
                 children[2*i] = np.concatenate((father[:5], mother[5:]), axis=None)
                 children[(2*i)+1] = np.concatenate((mother[:5], father[5:]), axis=None)
-            else: 
+            else: # two point crossover
                 children[2*i] = np.concatenate((father[:3], mother[3:5], father[5:]), axis=None)
                 children[(2*i)+1] = np.concatenate((mother[:3], father[3:5], mother[5:]), axis=None)
             mode += 1
